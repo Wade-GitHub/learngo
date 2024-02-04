@@ -22,8 +22,11 @@ package main
 //  Use `go run` first.
 //  And after that use `go build` and run your program.
 // ---------------------------------------------------------
+import "fmt"
 
 func main() {
 	// ?
+	fmt.Println("Wade")
+	fmt.Println("Wade")
 	// ?
 }
