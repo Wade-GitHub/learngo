@@ -8,6 +8,11 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Greet More People
 //
@@ -29,8 +34,38 @@ package main
 
 func main() {
 	// TYPE YOUR CODE HERE
+	// fmt.Println("There are", len(os.Args)-1, "people!")
+	// fmt.Println("Hello great", os.Args[1], "!")
+	// fmt.Println("Hello great", os.Args[2], "!")
+	// fmt.Println("Hello great", os.Args[3], "!")
+	// fmt.Println("Nice to meet you all.")
 
 	// BONUS #1:
 	// Observe the error if you pass less then 3 arguments.
 	// Search on the web how to solve that.
+	nameCount := len(os.Args) - 1
+
+	// printPeopleCount(nameCount)
+	// if nameCount == 1 {
+	// 	fmt.Println("There is", nameCount, "person!")
+	// } else {
+	// 	fmt.Println("There are", nameCount, "people!")
+	// }
+	if nameCount != 1 {
+		fmt.Println("There are", nameCount, "people!")
+	} else {
+		fmt.Println("There is 1 person!")
+	}
+
+	// greetPeople(os.Args)
+	for i := 1; i < len(os.Args); i++ {
+		fmt.Println("Hello great", os.Args[i], "!")
+	}
+
+	// printSalutations(nameCount)
+	if nameCount > 1 {
+		fmt.Println("Nice to meet you all.")
+	} else if nameCount > 0 {
+		fmt.Println("Nice to meet you.")
+	}
 }

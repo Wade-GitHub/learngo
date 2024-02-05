@@ -8,6 +8,8 @@
 
 package main
 
+import "fmt"
+
 // ---------------------------------------------------------
 // EXERCISE: Convert and Fix #4
 //
@@ -18,6 +20,7 @@ package main
 // ---------------------------------------------------------
 
 func main() {
-	// age := 2
+	age := 2
 	// fmt.Println(int(7.5) + int(age))
+	fmt.Println(7.5 + float64(age))
 }
