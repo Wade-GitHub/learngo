@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
 // ---------------------------------------------------------
 // STORY
 //
@@ -53,4 +59,56 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	// if len(os.Args) < 2 {
+	// 	fmt.Println("Requires age")
+	// 	return
+	// }
+
+	// age, err := strconv.Atoi(os.Args[1])
+	// if err != nil {
+	// 	fmt.Printf("Wrong age: %q\n", os.Args[1])
+	// 	return
+	// }
+
+	// if age < 0 {
+	// 	fmt.Printf("Wrong age: %q\n", os.Args[1])
+	// 	return
+	// }
+
+	// if age > 17 {
+	// 	fmt.Println("R-Rated")
+	// } else if age < 13 {
+	// 	fmt.Println("PG-Rated")
+	// } else {
+	// 	fmt.Println("PG-13")
+	// }
+
+	// if a := os.Args; len(a) != 2 {
+	// 	fmt.Println("Requires age")
+	// 	return
+	// } else if age, err := strconv.Atoi(a[1]); err != nil {
+	// 	fmt.Printf("Wrong age: %q\n", a[1])
+	// } else if age < 0 {
+	// 	fmt.Printf("Wrong age: %q\n", a[1])
+	// } else if age > 17 {
+	// 	fmt.Println("R-Rated")
+	// } else if age < 13 {
+	// 	fmt.Println("PG-Rated")
+	// } else {
+	// 	fmt.Println("PG-13")
+	// }
+
+	if a := os.Args; len(a) != 2 {
+		fmt.Println("Requires age")
+		return
+	} else if age, err := strconv.Atoi(a[1]); err != nil || age < 0 {
+		fmt.Printf("Wrong age: %q\n", a[1])
+		return
+	} else if age > 17 {
+		fmt.Println("R-Rated")
+	} else if age < 13 {
+		fmt.Println("PG-Rated")
+	} else {
+		fmt.Println("PG-13")
+	}
 }
