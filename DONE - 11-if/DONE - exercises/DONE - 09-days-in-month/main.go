@@ -8,6 +8,13 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+	"strings"
+	"time"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Days in a Month
 //
@@ -88,4 +95,89 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	// if len(os.Args) != 2 {
+	// 	fmt.Println("Give me a month name.")
+	// 	return
+	// }
+
+	// var isLeapYear bool
+
+	// year := time.Now().Year()
+	// It is a leap year if the year is:
+	// - divisible by 400, or
+	// - divisible by 4, but not 100
+	// if year%400 == 0 || (year%100 != 0 && year%4 == 0) {
+	// 	isLeapYear = true
+	// } else {
+	// 	isLeapYear = false
+	// }
+
+	// month := strings.ToLower(os.Args[1])
+
+	// if month == "january" {
+	// 	fmt.Printf("%q has 31 days.\n", month)
+	// } else if month == "february" {
+	// 	if isLeapYear {
+	// 		fmt.Printf("%q has 29 days.\n", month)
+	// 	} else {
+	// 		fmt.Printf("%q has 28 days.\n", month)
+	// 	}
+	// } else if month == "march" {
+	// 	fmt.Printf("%q has 31 days.\n", month)
+	// } else if month == "april" {
+	// 	fmt.Printf("%q has 30 days.\n", month)
+	// } else if month == "may" {
+	// 	fmt.Printf("%q has 31 days.\n", month)
+	// } else if month == "june" {
+	// 	fmt.Printf("%q has 30 days.\n", month)
+	// } else if month == "july" {
+	// 	fmt.Printf("%q has 31 days.\n", month)
+	// } else if month == "august" {
+	// 	fmt.Printf("%q has 31 days.\n", month)
+	// } else if month == "september" {
+	// 	fmt.Printf("%q has 30 days.\n", month)
+	// } else if month == "october" {
+	// 	fmt.Printf("%q has 31 days.\n", month)
+	// } else if month == "november" {
+	// 	fmt.Printf("%q has 30 days.\n", month)
+	// } else if month == "december" {
+	// 	fmt.Printf("%q has 31 days.\n", month)
+	// } else {
+	// 	fmt.Printf("%q is not a month.\n", month)
+	// }
+
+	if len(os.Args) != 2 {
+		fmt.Println("Give me a month name.")
+		return
+	}
+
+	days := 28
+
+	year := time.Now().Year()
+	isLeapYear := year%400 == 0 || (year%100 != 0 && year%4 == 0)
+
+	m := strings.ToLower(os.Args[1])
+	if m == "january" ||
+		m == "march" ||
+		m == "may" ||
+		m == "july" ||
+		m == "august" ||
+		m == "october" ||
+		m == "december" {
+		days = 31
+	} else if m == "april" ||
+		m == "june" ||
+		m == "september" ||
+		m == "november" {
+		days = 30
+	} else if m == "february" {
+		if isLeapYear {
+			days = 29
+		}
+	} else {
+		fmt.Printf("%q is not a valid month.\n", m)
+		return
+	}
+
+	fmt.Printf("%q has %d days.\n", m, days)
 }
