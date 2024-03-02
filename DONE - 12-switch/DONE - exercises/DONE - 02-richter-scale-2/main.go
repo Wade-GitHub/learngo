@@ -74,6 +74,7 @@ import (
 func main() {
 	if len(os.Args) != 2 {
 		fmt.Println("Tell me the magnitude of the earthquake in human terms.")
+		return
 	}
 
 	var mag string
