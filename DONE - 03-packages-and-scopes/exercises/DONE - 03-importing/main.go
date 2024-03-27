@@ -24,9 +24,19 @@ package main
 // ?
 // ?
 // ?
+import (
+	fmt1 "fmt"
+	fmt2 "fmt"
+	fmt3 "fmt"
+	// fmt2 "fmt"
+	// fmt3 "fmt"
+)
 
 func main() {
 	// ?
+	fmt1.Println("Hello")
 	// ?
+	fmt2.Println("Hey")
 	// ?
+	fmt3.Println("Hi")
 }
