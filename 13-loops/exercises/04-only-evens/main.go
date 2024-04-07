@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Only Evens
 //
@@ -28,4 +34,39 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	usage := "main.go [min] [max]"
+	if len(os.Args) != 3 {
+		fmt.Println(usage)
+		return
+	}
+
+	start, err := strconv.Atoi(os.Args[1])
+	if err != nil {
+		fmt.Println("Min value must be an int")
+		return
+	}
+
+	end, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		fmt.Println("Max value must be an int")
+		return
+	}
+
+	var total int
+
+	for i := start; i <= end; i++ {
+		if i%2 != 0 {
+			continue
+		}
+
+		total += i
+		fmt.Print(i)
+		// If the last number is an odd number, an even i will still be less than it and mess
+		// with the "+" printing.
+		// Add 1 to i, to make sure the next number (if it's odd) is the end number.
+		if i+1 < end {
+			fmt.Print(" + ")
+		}
+	}
+	fmt.Printf(" = %d\n", total)
 }
