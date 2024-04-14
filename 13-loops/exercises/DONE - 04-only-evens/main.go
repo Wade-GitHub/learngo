@@ -40,20 +40,19 @@ func main() {
 		return
 	}
 
-	start, err := strconv.Atoi(os.Args[1])
-	if err != nil {
-		fmt.Println("Min value must be an int")
+	start, errStart := strconv.Atoi(os.Args[1])
+	end, errEnd := strconv.Atoi(os.Args[2])
+	if errStart != nil || errEnd != nil {
+		fmt.Println("Min and max values must be ints")
 		return
 	}
 
-	end, err := strconv.Atoi(os.Args[2])
-	if err != nil {
-		fmt.Println("Max value must be an int")
+	if start > end {
+		fmt.Println("Min cannot be greater than max")
 		return
 	}
 
 	var total int
-
 	for i := start; i <= end; i++ {
 		if i%2 != 0 {
 			continue
