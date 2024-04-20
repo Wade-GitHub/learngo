@@ -8,6 +8,11 @@
 
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Infinite Kill
 //
@@ -53,4 +58,24 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	// 250 ms
+	// t := 1000 * 1000 * 250
+	t := time.Millisecond * 250
+
+	loading := []string{"|", "/", "-", "\\"}
+
+	for {
+		// fmt.Print("\r|")
+		// time.Sleep(time.Duration(t))
+		// fmt.Print("\r/")
+		// time.Sleep(time.Duration(t))
+		// fmt.Print("\r-")
+		// time.Sleep(time.Duration(t))
+		// fmt.Print("\r\\")
+		// time.Sleep(time.Duration(t))
+		for _, sym := range loading {
+			fmt.Printf("\r%s Loading, please wait...", sym)
+			time.Sleep(time.Duration(t))
+		}
+	}
 }

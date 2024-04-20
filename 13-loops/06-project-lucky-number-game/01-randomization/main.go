@@ -11,7 +11,6 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 func main() {
@@ -23,7 +22,7 @@ func main() {
 
 	// ^-- same:
 
-	rand.Seed(time.Now().UnixNano())
+	// rand.Seed(time.Now().UnixNano())
 
 	guess := 10
 

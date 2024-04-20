@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Dynamic Table
 //
@@ -54,4 +60,44 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	// Print usage if user doesn't pass anything to program.
+	if len(os.Args) != 2 {
+		fmt.Println("Usage: go run main.go [size]")
+		return
+	}
+
+	s, err := strconv.Atoi(os.Args[1])
+	if err != nil {
+		fmt.Println("Error: invalid size. Must be an integer.")
+		return
+	}
+
+	if s < 0 {
+		fmt.Println("Error: size cannot be negative.")
+		return
+	}
+
+	// Print the operator
+	fmt.Printf("%5s", "X")
+
+	// Print the heading.
+	// The heading trails after the operator, and is every number up to "s".
+	for i := 0; i <= s; i++ {
+		fmt.Printf("%5d", i)
+	}
+	fmt.Println()
+
+	// For each number up to "s", print the number at the start.
+	// This sets up the column of numbers up to "s".
+	for i := 0; i <= s; i++ {
+		fmt.Printf("%5d", i)
+
+		// This inner loop works similar to the first loop we did earlier.
+		// Go through every number up to "s", and multiply it by the iteration we're on in the
+		// outer loop.
+		for j := 0; j <= s; j++ {
+			fmt.Printf("%5d", i*j)
+		}
+		fmt.Println()
+	}
 }
