@@ -8,7 +8,12 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 // ---------------------------------------------------------
 // EXERCISE: Math Tables
@@ -106,10 +111,95 @@ import "fmt"
 //     go run main.go "*" 4
 // ---------------------------------------------------------
 
-func main() {
-	n := 4
+const (
+	usage = "Usage: [op] [size]"
 
-	for i := 0; i <= n; i++ {
-		fmt.Println(i)
+	validOps        = "*/+-%"
+	validOpsMessage = `Valid ops:
+  * (Multiply)
+  / (Divide)
+  + (Add)
+  - (Subtract)
+  % (Modulo/remainder)`
+)
+
+func main() {
+	// Size not given
+	if len(os.Args) == 2 {
+		fmt.Println("Size not given.")
+		fmt.Println()
+		fmt.Println(usage)
+		fmt.Println()
+		fmt.Println(validOpsMessage)
+		return
 	}
+
+	// Invalid no. args given
+	if len(os.Args) != 3 {
+		fmt.Println(usage)
+		fmt.Println()
+		fmt.Println(validOpsMessage)
+		return
+	}
+
+	// Invalid op given
+	if !strings.ContainsAny(validOps, os.Args[1]) {
+		fmt.Println("Invalid operator.")
+		fmt.Println()
+		fmt.Println(validOpsMessage)
+		return
+	}
+
+	op := os.Args[1]
+
+	n, err := strconv.Atoi(os.Args[2])
+	if err != nil || n < 1 {
+		fmt.Println("Invalid size - must be an integer greater than 0")
+		return
+	}
+
+	// Print out the header of the table
+	fmt.Printf("%5s", op)
+	for i := 0; i <= n; i++ {
+		fmt.Printf("%5d", i)
+	}
+	fmt.Println()
+
+	// Rest of the table
+	for i := 0; i <= n; i++ {
+		// Print out current operand (i.e. the first number being operated on)
+		fmt.Printf("%5d", i)
+		// Use an inner loop to loop over 0 - n, doing the given operation with each value
+		// against the current operand
+		var res int
+		for j := 0; j <= n; j++ {
+			// Do the required operation depending on the passed-in operator
+			switch op {
+			case "*":
+				// Multiply
+				res = i * j
+			case "+":
+				// Add
+				res = i + j
+			case "-":
+				// Subtract
+				res = i - j
+			case "/", "%":
+				// In both "/" (divide) and "%" (modulo/remainder) cases, we need to handle
+				// divide-by-zero cases.
+				// Any operation trying to divide by zero should just result in 0.
+				if j != 0 {
+					// Now handle the operator type (divide or modulo/remainder)
+					if op == "/" {
+						res = i / j
+					} else {
+						res = i % j
+					}
+				}
+			}
+			fmt.Printf("%5d", res)
+		}
+		fmt.Println()
+	}
+
 }
