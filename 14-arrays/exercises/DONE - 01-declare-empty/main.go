@@ -8,6 +8,8 @@
 
 package main
 
+import "fmt"
+
 // ---------------------------------------------------------
 // EXERCISE: Declare empty arrays
 //
@@ -59,4 +61,35 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	names := [3]string{}
+	distances := [5]int{}
+	dataBuffer := [5]byte{}
+	ratios := [1]float64{}
+	alives := [4]bool{}
+	zero := [0]byte{}
+
+	fmt.Printf("%#v\n", names)
+	fmt.Printf("%#v\n", distances)
+	fmt.Printf("%#v\n", dataBuffer)
+	fmt.Printf("%#v\n", ratios)
+	fmt.Printf("%#v\n", alives)
+	fmt.Printf("%#v\n", zero)
+
+	fmt.Println()
+
+	fmt.Printf("%T\n", names)
+	fmt.Printf("%T\n", distances)
+	fmt.Printf("%T\n", dataBuffer)
+	fmt.Printf("%T\n", ratios)
+	fmt.Printf("%T\n", alives)
+	fmt.Printf("%T\n", zero)
+
+	fmt.Println()
+
+	fmt.Printf("%q\n", names)
+	fmt.Printf("%d\n", distances)
+	fmt.Printf("%d\n", dataBuffer)
+	fmt.Printf("%.2f\n", ratios)
+	fmt.Printf("%t\n", alives)
+	fmt.Printf("%q\n", zero)
 }

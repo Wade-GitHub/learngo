@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Number Sorter
 //
@@ -47,4 +53,37 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	args := os.Args[1:]
+	if l := len(args); l == 0 || l > 5 {
+		fmt.Println("Please give me up to 5 numbers.")
+		return
+	}
+
+	var nums [5]int
+	for i := range args {
+		n, err := strconv.Atoi(args[i])
+		if err != nil {
+			continue
+		}
+		nums[i] = n
+	}
+
+	// for i := 0; i < len(nums)-1; i++ {
+	// 	for j := i + 1; j < len(nums); j++ {
+	// 		if nums[i] > nums[j] {
+	// 			nums[i], nums[j] = nums[j], nums[i]
+	// 		}
+	// 		// fmt.Printf("%d\n", nums)
+	// 	}
+	// }
+
+	// Another way of doing bubble sort:
+	for range nums {
+		for i, n := range nums {
+			if i < len(nums)-1 && n > nums[i+1] {
+				nums[i], nums[i+1] = nums[i+1], nums[i]
+			}
+		}
+	}
+	fmt.Printf("%d\n", nums)
 }

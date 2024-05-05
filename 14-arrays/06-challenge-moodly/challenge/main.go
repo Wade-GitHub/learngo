@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"math/rand"
+	"os"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Moodly
 //
@@ -46,4 +52,24 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	args := os.Args[1:]
+	if len(args) != 1 {
+		fmt.Println("Usage: go run main.go [your name]")
+		return
+	}
+
+	name := args[0]
+
+	moods := [...]string{
+		"good",
+		"happy",
+		"awesome",
+		"bad",
+		"sad",
+		"terrible",
+	}
+
+	n := rand.Intn(6)
+
+	fmt.Printf("%s feels %s\n", name, moods[n])
 }

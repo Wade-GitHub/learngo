@@ -8,19 +8,30 @@
 
 package main
 
+import "fmt"
+
 // ---------------------------------------------------------
-// EXERCISE: Refactor to Ellipsis
+// EXERCISE: Fix
 //
-//  1. Use the 03-array-literal exercise
+//  1. Uncomment the code
 //
-//  2. Refactor the length of the array literals to ellipsis
+//  2. And fix the problems
 //
-//    This means: Use the ellipsis instead of defining the array's length
-//                manually.
-//
-// EXPECTED OUTPUT
-//   The output should be the same as the 03-array-literal exercise.
+//  3. BONUS: Simplify the code
 // ---------------------------------------------------------
 
 func main() {
+	var names = [...]string{
+		"Einstein",
+		"Shepard",
+		"Tesla",
+	}
+
+	var books = [...]string{
+		"Kafka's Revenge",
+		"Stay Golden",
+	}
+
+	fmt.Printf("%q\n", names)
+	fmt.Printf("%q\n", books)
 }
