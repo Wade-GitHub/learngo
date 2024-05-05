@@ -8,6 +8,13 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Path Searcher
 //
@@ -80,4 +87,19 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	// Get path from environment, and split into a slice of strings
+	pathSlice := filepath.SplitList(os.Getenv("PATH"))
+	query := os.Args[1:]
+
+	// Go through all queries the user passes in
+	for _, q := range query {
+		// Go through all dirs in PATH to match queries against
+		for i, dir := range pathSlice {
+			// If a dir partially contains the query, it's a match
+			// E.g.: "local" matches "/usr/local/bin", "/usr/local/sbin", "/usr/local/go/bin"
+			if strings.Contains(dir, strings.ToLower(q)) {
+				fmt.Printf("#%d : %q\n", i, dir)
+			}
+		}
+	}
 }

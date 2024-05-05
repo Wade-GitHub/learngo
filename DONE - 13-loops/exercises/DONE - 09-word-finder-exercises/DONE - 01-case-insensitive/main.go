@@ -35,7 +35,6 @@ const corpus = "" +
 
 func main() {
 	words := strings.Fields(corpus)
-
 	query := os.Args[1:]
 
 	for _, q := range query {
