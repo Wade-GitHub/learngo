@@ -101,3 +101,47 @@ var colon = placeholder{
 var digits = [...]placeholder{
 	zero, one, two, three, four, five, six, seven, eight, nine,
 }
+
+var a = placeholder{
+	" ███ ",
+	" █ █ ",
+	" ███ ",
+	" █ █ ",
+	" █ █ ",
+}
+
+var l = placeholder{
+	" █   ",
+	" █   ",
+	" █   ",
+	" █   ",
+	" ███ ",
+}
+
+var r = placeholder{
+	" ██  ",
+	" █ █ ",
+	" ██  ",
+	" █ █ ",
+	" █ █ ",
+}
+
+var m = placeholder{
+	" █ █ ",
+	" ███ ",
+	" █ █ ",
+	" █ █ ",
+	" █ █ ",
+}
+
+var exclamation = placeholder{
+	"  █  ",
+	"  █  ",
+	"  █  ",
+	"     ",
+	"  █  ",
+}
+
+var alarm = [...]placeholder{
+	a, l, a, r, m,
+}

@@ -74,41 +74,166 @@
 
 package main
 
-import (
-	"fmt"
-	"time"
+import "fmt"
 
-	"github.com/inancgumus/screen"
-)
+const clockDigitsLength = 8
 
 func main() {
-	screen.Clear()
+	// screen.Clear()
 
-	for {
-		screen.MoveTopLeft()
+	// for {
+	// 	// screen.MoveTopLeft()
 
-		now := time.Now()
-		hour, min, sec := now.Hour(), now.Minute(), now.Second()
+	// 	// Clear the screen on the first round of the infinite loop.
+	// 	clearCmd := exec.Command("clear")
+	// 	clearCmd.Stdout = os.Stdout
+	// 	clearCmd.Run()
 
-		clock := [...]placeholder{
-			digits[hour/10], digits[hour%10],
-			colon,
-			digits[min/10], digits[min%10],
-			colon,
-			digits[sec/10], digits[sec%10],
-		}
+	// 	// for i := 0; i < clockDigitsLength; i++ {
+	// 	// 	now := time.Now()
+	// 	// 	hour, min, sec := now.Hour(), now.Minute(), now.Second()
 
-		for line := range clock[0] {
-			for index, digit := range clock {
-				next := clock[index][line]
-				if digit == colon && sec%2 == 0 {
-					next = "   "
-				}
-				fmt.Print(next, "  ")
-			}
-			fmt.Println()
-		}
+	// 	// 	clock := [clockDigitsLength]placeholder{
+	// 	// 		digits[hour/10], digits[hour%10],
+	// 	// 		colon,
+	// 	// 		digits[min/10], digits[min%10],
+	// 	// 		colon,
+	// 	// 		digits[sec/10], digits[sec%10],
+	// 	// 	}
 
-		time.Sleep(time.Second)
+	// 	// 	clearCmd := exec.Command("clear")
+	// 	// 	clearCmd.Stdout = os.Stdout
+	// 	// 	clearCmd.Run()
+	// 	// 	for line := range clock[0] {
+	// 	// 		for index, digit := range clock[i:] {
+	// 	// 			next := clock[i:][index][line]
+	// 	// 			if digit == colon && sec%2 == 0 {
+	// 	// 				next = "   "
+	// 	// 			}
+	// 	// 			fmt.Print(next, "  ")
+	// 	// 		}
+	// 	// 		fmt.Println()
+	// 	// 	}
+	// 	// 	time.Sleep(time.Second)
+	// 	// }
+
+	// 	for i := 0; i < clockDigitsLength; i++ {
+	// 		now := time.Now()
+	// 		hour, min, sec := now.Hour(), now.Minute(), now.Second()
+
+	// 		clock := [clockDigitsLength]placeholder{
+	// 			digits[hour/10], digits[hour%10],
+	// 			colon,
+	// 			digits[min/10], digits[min%10],
+	// 			colon,
+	// 			digits[sec/10], digits[sec%10],
+	// 		}
+
+	// 		clearCmd := exec.Command("clear")
+	// 		clearCmd.Stdout = os.Stdout
+	// 		clearCmd.Run()
+	// 		// for line := range clock[0] {
+	// 		// 	for index, digit := range clock[0:i] {
+	// 		// 		next := clock[0:i][index][line]
+	// 		// 		if digit == colon && sec%2 == 0 {
+	// 		// 			next = "   "
+	// 		// 		}
+	// 		// 		// fmt.Print(next, "  ")
+	// 		// 		fmt.Printf("%40s", next)
+	// 		// 	}
+	// 		// 	fmt.Println()
+	// 		// }
+	// 		// for line := range clock[0] {
+	// 		for line := range 5 {
+	// 			for index := range clock[0:i] {
+	// 				next := clock[0:i][index][line]
+	// 				// if digit == colon && sec%2 == 0 {
+	// 				// 	next = "   "
+	// 				// }
+	// 				fmt.Print(next, "  ")
+	// 				// fmt.Printf("%40s", next)
+	// 			}
+	// 			fmt.Println()
+	// 		}
+	// 		time.Sleep(time.Second / 4)
+	// 	}
+	// }
+
+	staticClock := [...]placeholder{
+		zero,
+		five,
+		colon,
+		three,
+		two,
+		colon,
+		one,
+		three,
 	}
+
+	for line := range 5 {
+		lineToPrint := ""
+		for _, digit := range staticClock[0:8] {
+			// fmt.Print(digit[line], "  ")
+			// fmt.Printf("%40s  ", digit[line])
+			lineToPrint = fmt.Sprintf("%s  %s", lineToPrint, digit[line])
+		}
+		fmt.Printf("%40s", lineToPrint)
+		fmt.Println()
+	}
+
 }
+
+// const sleepTime = time.Second / 4
+
+// func main() {
+// 	now := time.Now()
+// 	hour := now.Hour()
+// 	minute := now.Minute()
+// 	second := now.Second()
+
+// 	clock := [...]string{
+// 		fmt.Sprint(hour / 10),
+// 		fmt.Sprint(hour % 10),
+// 		":",
+// 		fmt.Sprint(minute / 10),
+// 		fmt.Sprint(minute % 10),
+// 		":",
+// 		fmt.Sprint(second / 10),
+// 		fmt.Sprint(second % 10),
+// 	}
+
+// 	clearCmd := exec.Command("clear")
+// 	clearCmd.Stdout = os.Stdout
+// 	clearCmd.Run()
+
+// 	clockLength := len(clock)
+
+// 	for {
+// 		for i := 0; i < clockLength; i++ {
+// 			clearCmd := exec.Command("clear")
+// 			clearCmd.Stdout = os.Stdout
+// 			clearCmd.Run()
+
+// 			fmt.Printf("%s", strings.Join(clock[i:], ""))
+// 			fmt.Println()
+
+// 			time.Sleep(sleepTime)
+
+// 		}
+
+// 		// for i := 0; i < clockLength+1; i++ {
+// 		for i := 0; i < clockLength; i++ {
+// 			clearCmd := exec.Command("clear")
+// 			clearCmd.Stdout = os.Stdout
+// 			clearCmd.Run()
+
+// 			fmt.Printf("%8s", strings.Join(clock[0:i], ""))
+// 			fmt.Println()
+// 			time.Sleep(sleepTime)
+
+// 			// clearCmd := exec.Command("clear")
+// 			// clearCmd.Stdout = os.Stdout
+// 			// clearCmd.Run()
+// 		}
+// 	}
+// }

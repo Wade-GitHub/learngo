@@ -10,6 +10,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"time"
 )
 
@@ -96,37 +98,53 @@ func main() {
 		"███",
 	}
 
-	colon := placeholder{
-		"   ",
-		" ░ ",
-		"   ",
-		" ░ ",
-		"   ",
-	}
-
 	digits := [...]placeholder{
 		zero, one, two, three, four, five, six, seven, eight, nine,
 	}
 
-	now := time.Now()
-	hour, min, sec := now.Hour(), now.Minute(), now.Second()
-
-	fmt.Printf("hour: %d, min: %d, sec: %d\n", hour, min, sec)
-
-	// [8][5]string
-	clock := [...]placeholder{
-		// extract the digits: 17 becomes, 1 and 7 respectively
-		digits[hour/10], digits[hour%10],
-		colon,
-		digits[min/10], digits[min%10],
-		colon,
-		digits[sec/10], digits[sec%10],
+	sep := placeholder{
+		" ",
+		"░",
+		" ",
+		"░",
+		" ",
 	}
 
-	for line := range clock[0] {
-		for digit := range clock {
-			fmt.Print(clock[digit][line], "  ")
+	for {
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+
+		t := time.Now()
+
+		// To print the hour and minute for the current time, split each number into its "10s" and
+		// "1s" so we can get that digit out of the digits array, since the digits array only goes
+		// from 0-9
+		// Example: 10:55
+		// 10 is "1" and "0"
+		// 55 is "5" and "5"
+		//
+		// We can split the 2-digit number by first dividing it by 10 to get the 10s, and then
+		// doing a modulo to get the 1s (the remainder).
+		// We do this for both the minute and the hour.
+		clock := [...]placeholder{
+			digits[t.Hour()/10],
+			digits[t.Hour()%10],
+			sep,
+			digits[t.Minute()/10],
+			digits[t.Minute()%10],
+		}
+
+		// Print the time on the clock.
+		// Each digit has 5 lines (elements), so we need to print each line of each digit across
+		// the terminal before going to the next line.
+		for line := range 5 {
+			for digit := range clock {
+				fmt.Printf("%s  ", clock[digit][line])
+			}
+			fmt.Println()
 		}
 		fmt.Println()
+		time.Sleep(1 * time.Second)
 	}
 }

@@ -49,16 +49,19 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"time"
-
-	"github.com/inancgumus/screen"
 )
 
 func main() {
-	screen.Clear()
+	// screen.Clear()
 
 	for {
-		screen.MoveTopLeft()
+		// screen.MoveTopLeft()
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
 
 		now := time.Now()
 		hour, min, sec := now.Hour(), now.Minute(), now.Second()
@@ -71,16 +74,26 @@ func main() {
 			digits[sec/10], digits[sec%10],
 		}
 
-		for line := range clock[0] {
-			for index, digit := range clock {
-				// colon blink
-				next := clock[index][line]
-				if digit == colon && sec%2 == 0 {
-					next = "   "
+		// Every 10 seconds, show an alarm
+		if sec%10 == 0 {
+			for line := range 5 {
+				for _, letter := range alarm {
+					fmt.Printf("%s ", letter[line])
 				}
-				fmt.Print(next, "  ")
+				fmt.Println()
 			}
-			fmt.Println()
+		} else {
+			for line := range clock[0] {
+				for index, digit := range clock {
+					// colon blink
+					next := clock[index][line]
+					if digit == colon && sec%2 == 0 {
+						next = "   "
+					}
+					fmt.Print(next, "  ")
+				}
+				fmt.Println()
+			}
 		}
 
 		time.Sleep(time.Second)

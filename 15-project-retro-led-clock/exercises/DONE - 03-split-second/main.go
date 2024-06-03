@@ -109,19 +109,36 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"time"
+)
 
-	"github.com/inancgumus/screen"
+const (
+	// A split second is 1/10th of a second, whereas a nanosecond is 1/1,000,000,000th of a
+	// second. Therefore, we need to multiply 1 nanosecond by 100,000,000 to get a tenth of a
+	// second.
+	splitSecondMultiplier = 100_000_000
+
+	// The duration of one split second.
+	oneSplitSecond = splitSecondMultiplier * time.Nanosecond
 )
 
 func main() {
-	screen.Clear()
+	// screen.Clear()
 
 	for {
-		screen.MoveTopLeft()
+		// screen.MoveTopLeft()
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
 
 		now := time.Now()
-		hour, min, sec := now.Hour(), now.Minute(), now.Second()
+		hour, min, sec, nano := now.Hour(), now.Minute(), now.Second(), now.Nanosecond()
+
+		// Get the current split second by dividing the current nanosecond by the split second
+		// multiplier.
+		split := nano / splitSecondMultiplier
 
 		clock := [...]placeholder{
 			digits[hour/10], digits[hour%10],
@@ -129,13 +146,15 @@ func main() {
 			digits[min/10], digits[min%10],
 			colon,
 			digits[sec/10], digits[sec%10],
+			point,
+			digits[split],
 		}
 
 		for line := range clock[0] {
 			for index, digit := range clock {
 				// colon blink
 				next := clock[index][line]
-				if digit == colon && sec%2 == 0 {
+				if (digit == colon || digit == point) && sec%2 == 0 {
 					next = "   "
 				}
 				fmt.Print(next, "  ")
@@ -143,6 +162,7 @@ func main() {
 			fmt.Println()
 		}
 
-		time.Sleep(time.Second)
+		// time.Sleep(time.Second)
+		time.Sleep(oneSplitSecond)
 	}
 }
