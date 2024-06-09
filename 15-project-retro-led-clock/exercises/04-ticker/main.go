@@ -81,7 +81,10 @@ import (
 	"time"
 )
 
-const clockDigitsLength = 8
+const (
+	clockDigitsLength = 8
+	timeToSleep       = time.Second
+)
 
 func main() {
 	// screen.Clear()
@@ -94,38 +97,15 @@ func main() {
 		clearCmd.Stdout = os.Stdout
 		clearCmd.Run()
 
-		// 	// for i := 0; i < clockDigitsLength; i++ {
-		// 	// 	now := time.Now()
-		// 	// 	hour, min, sec := now.Hour(), now.Minute(), now.Second()
-
-		// 	// 	clock := [clockDigitsLength]placeholder{
-		// 	// 		digits[hour/10], digits[hour%10],
-		// 	// 		colon,
-		// 	// 		digits[min/10], digits[min%10],
-		// 	// 		colon,
-		// 	// 		digits[sec/10], digits[sec%10],
-		// 	// 	}
-
-		// 	// 	clearCmd := exec.Command("clear")
-		// 	// 	clearCmd.Stdout = os.Stdout
-		// 	// 	clearCmd.Run()
-		// 	// 	for line := range clock[0] {
-		// 	// 		for index, digit := range clock[i:] {
-		// 	// 			next := clock[i:][index][line]
-		// 	// 			if digit == colon && sec%2 == 0 {
-		// 	// 				next = "   "
-		// 	// 			}
-		// 	// 			fmt.Print(next, "  ")
-		// 	// 		}
-		// 	// 		fmt.Println()
-		// 	// 	}
-		// 	// 	time.Sleep(time.Second)
-		// 	// }
-
-		for i := 0; i <= clockDigitsLength; i++ {
+		// First loop: clock is displayed as full, then scrolls to the left, disappearing.
+		// We need an outer loop that starts with the entire length of the clock, and the inner
+		// loops can use to print smaller clocks on each iteration.
+		for i := 0; i < clockDigitsLength; i++ {
+			// Get the current time
 			now := time.Now()
 			hour, min, sec := now.Hour(), now.Minute(), now.Second()
 
+			// Build the clock array
 			clock := [clockDigitsLength]placeholder{
 				digits[hour/10], digits[hour%10],
 				colon,
@@ -134,109 +114,93 @@ func main() {
 				digits[sec/10], digits[sec%10],
 			}
 
+			// Clear the screen again, ready to print the next clock digits
 			clearCmd := exec.Command("clear")
 			clearCmd.Stdout = os.Stdout
 			clearCmd.Run()
-			// for line := range clock[0] {
-			// 	for index, digit := range clock[0:i] {
-			// 		next := clock[0:i][index][line]
-			// 		if digit == colon && sec%2 == 0 {
-			// 			next = "   "
-			// 		}
-			// 		// fmt.Print(next, "  ")
-			// 		fmt.Printf("%40s", next)
-			// 	}
-			// 	fmt.Println()
-			// }
-			// for line := range clock[0] {
+
+			// A tricky set of loops:
+			// We cannot simply just print each digit, because each digit is made up of 5
+			// strings as an array. We need to print each line of each digit, going across all
+			// the digits.
+			// This is why we start the outer loop as "for line := range clock[0]". We're
+			// looping over the first line of each digit, then the second line, and so on until
+			// the last line.
+			// Each digit has the same length, so we can use clock[0] as the range.
 			for line := range clock[0] {
-				lineToPrint := ""
-				// for index := range clock[0:i] {
-				for index := range i {
-					lineToPrint = fmt.Sprintf("%s  %s", lineToPrint, clock[index][line])
+				// The number of digits we print to the terminal need to get smaller and
+				// smaller to make the illusion of the clock scrolling left.
+				// On the first iteration, this will be the whole 8 digits of the clock.
+				// On the second iteration, this will be 7 digits of the clock.
+				// And so on, until no digits are left to print.
+				// This is where we use "i" from the outer-most loop.
+				for index, digit := range clock[i:] {
+					// "next" gets the line of each digit as we're iterating (remember: we're
+					// getting the lines across the digits, not the digits themselves.)
+					next := clock[i:][index][line]
+					// We want the clock colon to blink every 2nd second.
+					if digit == colon && sec%2 == 0 {
+						next = "   "
+					}
+					fmt.Print(next, "  ")
 				}
+				// Print a new line so we can print the next line of digits.
+				fmt.Println()
+			}
+			time.Sleep(timeToSleep)
+		}
+
+		// Second loop: clock is displayed empty, then scrolls in from the right to the left,
+		// appearing as it goes along.
+		// We need an outer loop that starts with the entire length of the clock, and the inner
+		// loops can use to print larger clocks on each iteration.
+		for i := 0; i <= clockDigitsLength; i++ {
+			// Get the current time.
+			now := time.Now()
+			hour, min, sec := now.Hour(), now.Minute(), now.Second()
+
+			// Build the clock.
+			clock := [clockDigitsLength]placeholder{
+				digits[hour/10], digits[hour%10],
+				colon,
+				digits[min/10], digits[min%10],
+				colon,
+				digits[sec/10], digits[sec%10],
+			}
+
+			// Clear the terminal for each iteration.
+			clearCmd := exec.Command("clear")
+			clearCmd.Stdout = os.Stdout
+			clearCmd.Run()
+
+			// Same as in the first loop for the disappearing clock: we want to iterate across
+			// the lines of each digit.
+			for line := range clock[0] {
+				// Here we implement things slightly differently:
+				// We build a string with the line values for each digit going accross, then
+				// print the entire string, rather than printing each line individually.
+				// This is because we have to scroll in from the right, which needs to use
+				// a right-aligning Printf().
+				lineToPrint := ""
+				// Loop through each digit of the clock. The number of digits will get larger
+				// as the outer-most loop iterates, therefore printing more digits.
+				for index, digit := range clock[0:i] {
+					// Like in the disappearing clock, we want to print the colon every 2nd
+					// second.
+					if digit == colon && sec%2 == 0 {
+						lineToPrint = fmt.Sprintf("%s  %s", lineToPrint, "  ")
+					} else {
+						lineToPrint = fmt.Sprintf("%s  %s", lineToPrint, clock[index][line])
+					}
+				}
+				// Print the lines of all the digits going across the clock, right-aligned to
+				// 40 spaces. This is the length of the clock (each digit has 5 characters per
+				// line, with 8 digits. 5 * 8 = 40).
 				fmt.Printf("%40s", lineToPrint)
 				fmt.Println()
 			}
-			time.Sleep(time.Second / 4)
+			time.Sleep(timeToSleep)
 		}
 	}
 
-	// 	staticClock := [...]placeholder{
-	// 		zero,
-	// 		five,
-	// 		colon,
-	// 		three,
-	// 		two,
-	// 		colon,
-	// 		one,
-	// 		three,
-	// 	}
-
-	// 	for line := range 5 {
-	// 		lineToPrint := ""
-	// 		for _, digit := range staticClock[0:8] {
-	// 			// fmt.Print(digit[line], "  ")
-	// 			// fmt.Printf("%40s  ", digit[line])
-	// 			lineToPrint = fmt.Sprintf("%s  %s", lineToPrint, digit[line])
-	// 		}
-	// 		fmt.Printf("%40s", lineToPrint)
-	// 		fmt.Println()
-	// 	}
-
-	// }
-
-	// const sleepTime = time.Second / 4
-
-	// func main() {
-	// 	now := time.Now()
-	// 	hour := now.Hour()
-	// 	minute := now.Minute()
-	// 	second := now.Second()
-
-	// 	clock := [...]string{
-	// 		fmt.Sprint(hour / 10),
-	// 		fmt.Sprint(hour % 10),
-	// 		":",
-	// 		fmt.Sprint(minute / 10),
-	// 		fmt.Sprint(minute % 10),
-	// 		":",
-	// 		fmt.Sprint(second / 10),
-	// 		fmt.Sprint(second % 10),
-	// 	}
-
-	// 	clearCmd := exec.Command("clear")
-	// 	clearCmd.Stdout = os.Stdout
-	// 	clearCmd.Run()
-
-	// 	clockLength := len(clock)
-
-	// 	for {
-	// 		for i := 0; i < clockLength; i++ {
-	// 			clearCmd := exec.Command("clear")
-	// 			clearCmd.Stdout = os.Stdout
-	// 			clearCmd.Run()
-
-	// 			fmt.Printf("%s", strings.Join(clock[i:], ""))
-	// 			fmt.Println()
-
-	// 			time.Sleep(sleepTime)
-
-	// 		}
-
-	// 		// for i := 0; i < clockLength+1; i++ {
-	// 		for i := 0; i < clockLength; i++ {
-	// 			clearCmd := exec.Command("clear")
-	// 			clearCmd.Stdout = os.Stdout
-	// 			clearCmd.Run()
-
-	// 			fmt.Printf("%8s", strings.Join(clock[0:i], ""))
-	// 			fmt.Println()
-	// 			time.Sleep(sleepTime)
-
-	// 			// clearCmd := exec.Command("clear")
-	// 			// clearCmd.Stdout = os.Stdout
-	// 			// clearCmd.Run()
-	// 		}
-	// 	}
 }
