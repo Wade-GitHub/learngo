@@ -8,6 +8,11 @@
 
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Append #2
 //
@@ -46,4 +51,34 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	const (
+		day   = time.Hour * 24
+		week  = day * 7
+		month = week * 4
+		year  = month * 12
+	)
+
+	var (
+		toppings    []string
+		graduations []int
+		departures  []time.Time
+		lights      []bool
+	)
+
+	toppings = append(toppings, "Pepperoni", "Mozzarella", "Tomato Sauce")
+	graduations = append(graduations, 2011, 2015, 2016)
+
+	// Need to append times a bit differently
+	now := time.Now()
+	tomorrow := now.Add(time.Hour * 24)
+	nextWeek := now.Add(time.Hour * 24 * 7)
+	randomDate := now.Add(year * 4).Add(month * 5).Add(day * 20)
+	departures = append(departures, tomorrow, nextWeek, randomDate)
+
+	lights = append(lights, true, false, false, true)
+
+	fmt.Printf("Toppings    : %v\n", toppings)
+	fmt.Printf("Graduations : %v\n", graduations)
+	fmt.Printf("Departures  : %v\n", departures)
+	fmt.Printf("Lights      : %v\n", lights)
 }
