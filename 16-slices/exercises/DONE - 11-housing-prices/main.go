@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Housing Prices
 //
@@ -76,4 +82,70 @@ Istanbul,500,10,5,1000000`
 
 		separator = ","
 	)
+
+	var (
+		locations                  []string
+		sizes, beds, baths, prices []int
+	)
+
+	rows := strings.Split(data, "\n")
+
+	for _, row := range rows {
+		rowData := strings.Split(row, separator)
+
+		// Extract location.
+		loc := rowData[0]
+
+		// Extract size.
+		size, err := strconv.Atoi(rowData[1])
+		if err != nil {
+			fmt.Println("Invalid size")
+			return
+		}
+
+		// Extract bed count.
+		bed, err := strconv.Atoi(rowData[2])
+		if err != nil {
+			fmt.Println("Invalid bed count")
+			return
+		}
+
+		// Extract bath count.
+		bath, err := strconv.Atoi(rowData[3])
+		if err != nil {
+			fmt.Println("Invalid bath count")
+			return
+		}
+
+		// Extract price.
+		price, err := strconv.Atoi(rowData[4])
+		if err != nil {
+			fmt.Println("Invalid price")
+			return
+		}
+
+		// Append data into slices.
+		locations = append(locations, loc)
+		sizes = append(sizes, size)
+		beds = append(beds, bed)
+		baths = append(baths, bath)
+		prices = append(prices, price)
+	}
+
+	// Print the header.
+	for _, item := range strings.Split(header, separator) {
+		fmt.Printf("%-15s", item)
+	}
+	fmt.Println()
+	fmt.Println(strings.Repeat("=", 75))
+
+	// Print each row of data.
+	for i := 0; i < len(rows); i++ {
+		fmt.Printf("%-15s", locations[i])
+		fmt.Printf("%-15d", sizes[i])
+		fmt.Printf("%-15d", beds[i])
+		fmt.Printf("%-15d", baths[i])
+		fmt.Printf("%-15d", prices[i])
+		fmt.Println()
+	}
 }
