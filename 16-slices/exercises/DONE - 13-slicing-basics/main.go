@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Slice the numbers
 //
@@ -58,5 +64,58 @@ package main
 
 func main() {
 	// uncomment the declaration below
-	// data := "2 4 6 1 3 5"
+	data := "2 4 6 1 3 5"
+
+	var (
+		nums,
+		evens,
+		odds,
+		middle,
+		first2,
+		last2,
+		evensLast1,
+		oddsLast2 []int
+	)
+
+	strNums := strings.Split(data, " ")
+	for i := range strNums {
+		n, err := strconv.Atoi(strNums[i])
+		if err != nil {
+			fmt.Println("Invalid data")
+		}
+		nums = append(nums, n)
+	}
+
+	// Collect the even numbers
+	// evens = append(evens, nums[0], nums[1], nums[2])
+	evens = append(evens, nums[:3]...)
+
+	// Collect the odd numbers
+	// odds = append(odds, nums[3], nums[4], nums[5])
+	odds = append(odds, nums[3:]...)
+
+	// Collect the two numbers in the middle
+	// middle = append(middle, nums[2], nums[3])
+	middle = append(middle, nums[2:3]...)
+
+	// Collect the first 2 numbers
+	first2 = append(first2, nums[0:2]...)
+
+	// Collect the last 2 numbers
+	last2 = append(last2, nums[len(nums)-2:]...)
+
+	// Slice the evens for the last number
+	evensLast1 = append(evensLast1, evens[len(evens)-1:]...)
+
+	// Slice the odds for the last two numbers
+	oddsLast2 = append(oddsLast2, odds[len(odds)-2:]...)
+
+	fmt.Printf("nums         : %d\n", nums)
+	fmt.Printf("evens        : %d\n", evens)
+	fmt.Printf("odds         : %d\n", odds)
+	fmt.Printf("middle       : %d\n", middle)
+	fmt.Printf("first 2      : %d\n", first2)
+	fmt.Printf("last 2       : %d\n", last2)
+	fmt.Printf("evens last 1 : %d\n", evensLast1)
+	fmt.Printf("odds last 2  : %d\n", oddsLast2)
 }
