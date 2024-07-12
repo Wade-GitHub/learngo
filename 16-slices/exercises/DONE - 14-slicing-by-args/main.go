@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Slicing by arguments
 //
@@ -113,5 +119,95 @@ package main
 
 func main() {
 	// uncomment the slice below
-	// ships := []string{"Normandy", "Verrikan", "Nexus", "Warsaw"}
+	ships := []string{"Normandy", "Verrikan", "Nexus", "Warsaw"}
+
+	// Print the slice
+	fmt.Printf("%q\n", ships)
+	fmt.Println()
+
+	// // If an end isn't passed in, default to the length of the slice.
+	// end := len(ships)
+
+	// // ==== Error handling section ====
+	// args := os.Args[1:]
+
+	// // No. of arguments must be only 1 or 2
+	// if len(args) != 1 && len(args) != 2 {
+	// 	fmt.Println("Provide only [starting] and [stopping] positions")
+	// 	return
+	// }
+
+	// // Get start and end.
+	// // If only 1 argument, it is just the start.
+	// start, err := strconv.Atoi(args[0])
+	// if err != nil {
+	// 	fmt.Printf("Error: %s", err)
+	// 	return
+	// }
+
+	// // If 2 arguments, we have the start and end.
+	// if len(args) == 2 {
+	// 	end, err = strconv.Atoi(args[1])
+	// 	if err != nil {
+	// 		fmt.Printf("Error: %s", err)
+	// 		return
+	// 	}
+	// }
+
+	// // Start must be >= 0
+	// if start < 0 {
+	// 	fmt.Println("Wrong positions")
+	// 	return
+	// }
+
+	// // End must be <= len(ships)
+	// if end > len(ships) {
+	// 	fmt.Println("Wrong positions")
+	// 	return
+	// }
+
+	// // Start cannot be greater than end.
+	// if start > end {
+	// 	fmt.Println("Wrong positions")
+	// 	return
+	// }
+	// // ==== end error handling ====
+
+	// // Print the slice with start and stop
+	// fmt.Printf("%s\n", ships[start:end])
+
+	start, end := 0, len(ships)
+	var err error
+
+	switch args := os.Args[1:]; len(args) {
+	default:
+		fallthrough
+	case 0:
+		fmt.Println("Provide only the [starting] and [stopping] positions")
+		return
+	// 2 args given: we have a start and end in this case, so grab the end, then fallthrough
+	// to the case where we would have only 1 arg and get that as the start.
+	case 2:
+		end, err = strconv.Atoi(args[1])
+		if err != nil {
+			fmt.Println("Please provide numbers for positions")
+			return
+		}
+		fallthrough
+	case 1:
+		start, err = strconv.Atoi(args[0])
+		if err != nil {
+			fmt.Println("Please provide numbers for positions")
+			return
+		}
+	}
+
+	// Error case handling
+	if l := len(ships); start < 0 || start > l || end > l || start > end {
+		fmt.Println("Wrong positions")
+		return
+	}
+
+	// Print the slice with start and stop
+	fmt.Println(ships[start:end])
 }

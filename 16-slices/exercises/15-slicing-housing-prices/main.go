@@ -8,6 +8,11 @@
 
 package main
 
+import (
+	"fmt"
+	"strings"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Slicing the Housing Prices
 //
@@ -133,4 +138,32 @@ Istanbul,500,10,5,1000000`
 
 		separator = ","
 	)
+
+	dataSlice := strings.Split(data, "\n")
+	// fmt.Printf("dataSlice: %q\n", dataSlice)
+
+	headings := strings.Split(dataSlice[0], separator)
+	// fmt.Printf("headings: %q\n", headings)
+
+	var rows [][]string
+	for _, line := range dataSlice[1:] {
+		rows = append(rows, strings.Split(line, separator))
+	}
+
+	// fmt.Printf("rows: %q\n", rows)
+
+	// Print the table
+	from, to := 0, len(headings)
+	for _, heading := range headings[from:to] {
+		fmt.Printf("%-15s", heading)
+	}
+	fmt.Println()
+	fmt.Println()
+
+	for _, row := range rows {
+		for _, item := range row[from:to] {
+			fmt.Printf("%-15s", item)
+		}
+		fmt.Println()
+	}
 }
