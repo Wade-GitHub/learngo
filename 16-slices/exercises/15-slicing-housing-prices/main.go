@@ -10,6 +10,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 )
 
@@ -139,27 +140,45 @@ Istanbul,500,10,5,1000000`
 		separator = ","
 	)
 
-	dataSlice := strings.Split(data, "\n")
-	// fmt.Printf("dataSlice: %q\n", dataSlice)
+	from, to := 0, len(headings)
 
+	arg1, arg2 := "Size", "Baths"
+
+	// Getting args from CLI.
+	switch args := os.Args[1:]; len(args) {
+	case 1:
+		from = 
+	}
+
+
+	from = slices.Index(headings, arg1)
+	if from == -1 {
+		from = 0
+	}
+
+	to = slices.Index(headings, arg2)
+	if to == -1 {
+		to = len(headings)
+	} else {
+		to += 1
+	}
+
+	dataSlice := strings.Split(data, "\n")
 	headings := strings.Split(dataSlice[0], separator)
-	// fmt.Printf("headings: %q\n", headings)
 
 	var rows [][]string
 	for _, line := range dataSlice[1:] {
 		rows = append(rows, strings.Split(line, separator))
 	}
 
-	// fmt.Printf("rows: %q\n", rows)
-
-	// Print the table
-	from, to := 0, len(headings)
+	// Print the table headings.
 	for _, heading := range headings[from:to] {
 		fmt.Printf("%-15s", heading)
 	}
 	fmt.Println()
 	fmt.Println()
 
+	// Print the table data.
 	for _, row := range rows {
 		for _, item := range row[from:to] {
 			fmt.Printf("%-15s", item)
