@@ -10,6 +10,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"slices"
 	"strings"
 )
@@ -140,35 +141,52 @@ Istanbul,500,10,5,1000000`
 		separator = ","
 	)
 
-	from, to := 0, len(headings)
-
-	arg1, arg2 := "Size", "Baths"
-
-	// Getting args from CLI.
-	switch args := os.Args[1:]; len(args) {
-	case 1:
-		from = 
-	}
-
-
-	from = slices.Index(headings, arg1)
-	if from == -1 {
-		from = 0
-	}
-
-	to = slices.Index(headings, arg2)
-	if to == -1 {
-		to = len(headings)
-	} else {
-		to += 1
-	}
-
+	// Split all string data into a slice so we can get the relevant fields out as slices.
 	dataSlice := strings.Split(data, "\n")
 	headings := strings.Split(dataSlice[0], separator)
 
 	var rows [][]string
 	for _, line := range dataSlice[1:] {
 		rows = append(rows, strings.Split(line, separator))
+	}
+
+	// Set the initial "from" and "to" indexes, in the case fewer than 2 args are passed.
+	from, to := 0, len(headings)
+
+	// Getting args from CLI.
+	switch args := os.Args[1:]; len(args) {
+	default:
+		fallthrough
+	case 0:
+		// No args passed in - break from the switch statement. Default "from" and "to" will
+		// be used.
+		break
+	case 2:
+		// See if arg2 exists in the slice.
+		to = slices.Index(headings, args[1])
+		if to == -1 {
+			// If not, set "to" to the length of the slice.
+			to = len(headings)
+		} else {
+			// If the arg exists in the slice, we need to add 1 to the "to" index, or it will
+			// exclude that column in the table when printing it.
+			to += 1
+		}
+		// Fall through to pick up the "from" argument.
+		fallthrough
+	case 1:
+		// See if arg1 exists in the slice.
+		from = slices.Index(headings, args[0])
+		if from == -1 {
+			// If not, set it to the beginning.
+			from = 0
+		}
+	}
+
+	// If the "from" index is greater than the "to" index, set "from" to the start of the
+	// slice, since it's invalid.
+	if from > to {
+		from = 0
 	}
 
 	// Print the table headings.
