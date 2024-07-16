@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"runtime"
 	"runtime/debug"
+	"unsafe"
 )
 
 // ---------------------------------------------------------
@@ -86,28 +87,49 @@ func main() {
 	// 1. allocate an array with 10 million int elements
 	//    the array's size will be equal to ~80MB
 	//    hint: use the `size` constant above.
+	var a [size]int
+	// _ = a
 
 	// 2. print the memory usage (use the report func).
+	report("1. Creating 10 million int array")
 
 	// 3. copy the array to a new array.
+	newA := a
+	_ = newA
 
 	// 4. print the memory usage
+	report("2. Copying array")
 
 	// 5. pass the array to the passArray function
+	passArray(newA)
 
 	// 6. convert one of the arrays to a slice
+	sliceFull := newA[:]
 
 	// 7. slice only the first 1000 elements of the array
+	slice1_000 := newA[:1000]
 
 	// 8. slice only the elements of the array between 1000 and 10000
+	slice1_000To10_000 := newA[10000:10001]
 
 	// 9. print the memory usage (report func)
+	report("4. Create 3 slices")
+	// _ = sliceFull
+	_ = slice1_000
+	_ = slice1_000To10_000
 
 	// 10. pass the one of the slices to the passSlice function
+	passSlice(sliceFull)
 
 	// 11. print the sizes of the arrays and slices
 	//     hint: use the unsafe.Sizeof function
 	//     see more here: https://golang.org/pkg/unsafe/#Sizeof
+	fmt.Println()
+	fmt.Println("a array size:", unsafe.Sizeof(a), "bytes")
+	fmt.Println("newA array size:", unsafe.Sizeof(newA), "bytes")
+	fmt.Println("sliceFull slice size:", unsafe.Sizeof(sliceFull), "bytes")
+	fmt.Println("slice1_000 slice size:", unsafe.Sizeof(slice1_000), "bytes")
+	fmt.Println("slice1_000To10_000 slice size:", unsafe.Sizeof(slice1_000To10_000), "bytes")
 }
 
 // passes [size]int array — about 80MB!
