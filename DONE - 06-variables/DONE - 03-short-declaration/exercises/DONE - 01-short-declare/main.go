@@ -8,23 +8,32 @@
 
 package main
 
+import "fmt"
+
 // ---------------------------------------------------------
-// EXERCISE: Multiple Short Declare #2
+// EXERCISE: Short Declare
 //
-//  1. Declare two variables using multiple short declaration
-//
-//  2. `a` variable's value should be 42
-//  3. `c` variable's value should be "good"
+//  Declare and then print four variables using
+//  the short declaration statement.
 //
 // EXPECTED OUTPUT
-//  42 good
+//  i: 314 f: 3.14 s: Hello b: true
 // ---------------------------------------------------------
 
 func main() {
 	// ADD YOUR DECLARATIONS HERE
 	//
+	i := 314
+	f := 3.14
+	s := "Hello"
+	b := true
 
 	// THEN UNCOMMENT THE CODE BELOW
 
-	// fmt.Println(a, c)
+	fmt.Println(
+		"i:", i,
+		"f:", f,
+		"s:", s,
+		"b:", b,
+	)
 }

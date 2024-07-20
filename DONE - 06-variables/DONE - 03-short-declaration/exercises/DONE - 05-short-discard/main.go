@@ -8,26 +8,34 @@
 
 package main
 
+import "fmt"
+
 // ---------------------------------------------------------
-// EXERCISE: Short Declare
+// EXERCISE: Short Discard
 //
-//  Declare and then print four variables using
-//  the short declaration statement.
+// 	1. Short declare two bool variables
+//     (use multiple short declaration syntax)
+//
+//  2. Initialize both variables to true
+//
+//  3. Change your declaration and
+//     discard the 2nd variable's value
+//     using the blank-identifier
+//
+//  4. Print only the 1st variable
 //
 // EXPECTED OUTPUT
-//  i: 314 f: 3.14 s: Hello b: true
+//  true
 // ---------------------------------------------------------
 
 func main() {
 	// ADD YOUR DECLARATIONS HERE
 	//
+	a, b := true, true
+
+	on, _ := a, b
 
 	// THEN UNCOMMENT THE CODE BELOW
 
-	// fmt.Println(
-	// 	"i:", i,
-	// 	"f:", f,
-	// 	"s:", s,
-	// 	"b:", b,
-	// )
+	fmt.Println(on)
 }
