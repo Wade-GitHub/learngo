@@ -64,10 +64,69 @@ import (
 // ---------------------------------------------------------
 
 func main() {
+	expected := strings.Fields("yesterday all my troubles seemed so far away now it looks as though they are here to stay oh I believe in yesterday")
 	// DON'T TOUCH THIS:
 	lyric := strings.Fields(`all my troubles seemed so far away oh I believe in yesterday now it looks as though they are here to stay`)
 
 	// ADD YOUR CODE BELOW:
 	// ...
-	fmt.Printf("%s\n", lyric)
+
+	// Actual code:
+	lyric = append([]string{"yesterday"}, lyric...)
+	lyric = append(lyric, lyric[8:13]...)
+	lyric = append(lyric[0:8], lyric[13:]...)
+
+	fmt.Printf("Expected: %s\n", expected)
+	fmt.Printf("Result:   %s\n", lyric)
+
+	// Visualisation of steps:
+	// fmt.Print(strings.Repeat(" ", 11))
+	// for i := 0; i < len(lyric); i++ {
+	// 	fmt.Printf("%-11d", i)
+	// }
+	// fmt.Println()
+	// fmt.Printf("Expected: %-10s\n", expected)
+	// fmt.Printf("Result:   %-10s\n", lyric)
+
+	// fmt.Println("====")
+
+	// fmt.Printf("lyric len: %d, lyric cap: %d\n", len(lyric), cap(lyric))
+	// lyric = append([]string{"yesterday"}, lyric...)
+	// fmt.Printf("lyric len: %d, lyric cap: %d\n", len(lyric), cap(lyric))
+
+	// fmt.Print(strings.Repeat(" ", 11))
+	// for i := 0; i < len(lyric); i++ {
+	// 	fmt.Printf("%-11d", i)
+	// }
+	// fmt.Println()
+	// fmt.Printf("Expected: %-10s\n", expected)
+	// fmt.Printf("Result:   %-10s\n", lyric)
+
+	// fmt.Println("====")
+
+	// fmt.Printf("lyric len: %d, lyric cap: %d\n", len(lyric), cap(lyric))
+	// lyric = append(lyric, lyric[8:13]...)
+	// fmt.Printf("lyric len: %d, lyric cap: %d\n", len(lyric), cap(lyric))
+
+	// fmt.Print(strings.Repeat(" ", 11))
+	// for i := 0; i < len(lyric); i++ {
+	// 	fmt.Printf("%-11d", i)
+	// }
+	// fmt.Println()
+	// fmt.Printf("Expected: %-10s\n", expected)
+	// fmt.Printf("Result:   %-10s\n", lyric)
+
+	// fmt.Println("====")
+
+	// fmt.Printf("lyric len: %d, lyric cap: %d\n", len(lyric), cap(lyric))
+	// lyric = append(lyric[0:8], lyric[13:]...)
+	// fmt.Printf("lyric len: %d, lyric cap: %d\n", len(lyric), cap(lyric))
+
+	// fmt.Print(strings.Repeat(" ", 11))
+	// for i := 0; i < len(lyric); i++ {
+	// 	fmt.Printf("%-11d", i)
+	// }
+	// fmt.Println()
+	// fmt.Printf("Expected: %-10s\n", expected)
+	// fmt.Printf("Result:   %-10s\n", lyric)
 }
