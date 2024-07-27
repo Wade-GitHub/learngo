@@ -15,7 +15,9 @@ func Read(start, stop int) []int {
 	// ----------------------------------------
 	// RESTRICTIONS — ONLY ADD YOUR CODE IN THIS AREA
 
-	portion := temps[start:stop]
+	// portion := temps[start:stop]
+	// portion := append([]int(nil), temps[start:stop]...)
+	portion := temps[start:stop:stop]
 
 	// RESTRICTIONS — ONLY ADD YOUR CODE IN THIS AREA
 	// ----------------------------------------

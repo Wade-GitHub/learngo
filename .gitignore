@@ -14,3 +14,6 @@
 *.out
 
 .vscode/*
+
+# Stop tracking for golang packages
+pkg

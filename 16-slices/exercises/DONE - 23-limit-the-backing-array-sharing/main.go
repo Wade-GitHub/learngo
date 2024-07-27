@@ -89,4 +89,10 @@ func main() {
 
 	fmt.Println("api.temps     :", api.All())
 	fmt.Println("main.received :", received)
+
+	fmt.Println()
+	fmt.Println("api.temps cap          :", cap(api.All()))
+	fmt.Printf("api.temps address      : %p\n", api.All())
+	fmt.Println("main.received cap      :", cap(received))
+	fmt.Printf("main.received address  : %p\n", received)
 }
