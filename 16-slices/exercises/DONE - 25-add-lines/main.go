@@ -78,7 +78,22 @@ func main() {
 	//
 	// ~~~ CHANGE THIS CODE ~~~
 	//
-	fix := lyric
+	// fix := lyric
+	// fix := make([]string, len(lyric)+3)
+	// copy(fix, lyric[:8])
+	// fix[8] = "\n"
+	// copy(fix[9:19], lyric[8:18])
+	// fix[19] = "\n"
+	// copy(fix[20:25], lyric[18:23])
+	// fix[25] = "\n"
+
+	fix := make([]string, len(lyric)+3)
+	sentenceLengths := []int{8, 10, 5}
+
+	for i, copiedWords := 0, 0; copiedWords < len(lyric); i++ {
+		copiedWords += copy(fix[i+copiedWords:], lyric[copiedWords:copiedWords+sentenceLengths[i]])
+		fix[i+copiedWords] = "\n"
+	}
 	//
 	// ===================================
 
