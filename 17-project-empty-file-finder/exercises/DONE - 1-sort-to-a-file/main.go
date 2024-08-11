@@ -8,6 +8,12 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+	"slices"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Sort and write items to a file
 //
@@ -48,4 +54,29 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	if len(os.Args) == 1 {
+		fmt.Println("Send me some items and I will sort them")
+		return
+	}
+
+	// Chop off the first arg, the exe name.
+	args := os.Args[1:]
+
+	// Sort the args
+	slices.Sort(args)
+
+	// Slice of bytes to write to file
+	var data []byte
+
+	// Append each arg to the data slice.
+	for _, arg := range args {
+		data = append(data, arg...)
+		data = append(data, '\n')
+	}
+
+	err := os.WriteFile("sorted.txt", data, 0644)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+	}
+
 }
