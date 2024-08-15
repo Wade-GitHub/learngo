@@ -8,6 +8,11 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Find and write the names of subdirectories to a file
 //
@@ -68,4 +73,34 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+	paths := os.Args[1:]
+	if len(paths) == 0 {
+		fmt.Println("Please provide directory paths")
+		return
+	}
+
+	var dirs []byte
+	for _, dir := range paths {
+		subdirs, err := os.ReadDir(dir)
+		if err != nil {
+			fmt.Println("Error:", err)
+			continue
+		}
+		dirs = append(dirs, ' ', ' ')
+		dirs = append(dirs, dir...)
+		dirs = append(dirs, '/', '\n')
+
+		for _, subdir := range subdirs {
+			if subdir.IsDir() {
+				dirs = append(dirs, '\t')
+				dirs = append(dirs, subdir.Name()...)
+				dirs = append(dirs, '/', '\n')
+			}
+		}
+		dirs = append(dirs, '\n')
+	}
+	err := os.WriteFile("output.txt", dirs, 0644)
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
 }
