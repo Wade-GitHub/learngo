@@ -51,6 +51,7 @@ func main() {
 
 		maxFrames = 1200
 		speed     = time.Second / 20
+		bufLen    = (width*2 + 1) * height
 	)
 
 	var (
@@ -67,7 +68,7 @@ func main() {
 	}
 
 	// create a drawing buffer
-	buf := make([]rune, 0, width*height)
+	buf := make([]rune, 0, bufLen)
 
 	// clear the screen once
 	screen.Clear()
@@ -113,6 +114,10 @@ func main() {
 		// print the buffer
 		screen.MoveTopLeft()
 		fmt.Print(string(buf))
+		// fmt.Println("width*height:", width*height)
+		fmt.Println("bufLen:", bufLen)
+		fmt.Println("len:", len(buf))
+		fmt.Println("cap:", cap(buf))
 
 		// slow down the animation
 		time.Sleep(speed)
