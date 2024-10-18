@@ -51,8 +51,9 @@ func main() {
 	)
 
 	var (
-		px, py int    // ball position
-		vx, vy = 1, 1 // velocities
+		px, py int // ball position
+		// vx, vy = 1, 1 // velocities
+		vx, vy = 5, 2 // velocities
 
 		cell rune // current cell (for caching)
 	)
@@ -65,7 +66,8 @@ func main() {
 
 	// adjust the width and height
 	width /= ballWidth
-	height-- // there is a 1 pixel border in my terminal
+	// height-- // there is a 1 pixel border in my terminal
+	height -= 2
 
 	// create the board
 	board := make([][]bool, width)
@@ -85,24 +87,32 @@ func main() {
 	screen.Clear()
 
 	for i := 0; i < maxFrames; i++ {
+		// Remove previous position
+		board[px][py] = false
+		// prevX, prevY := px, py
+
 		// calculate the next ball position
 		px += vx
 		py += vy
 
 		// when the ball hits a border reverse its direction
-		if px <= 0 || px >= width-1 {
+		// if px <= 0 || px >= width-1 {
+		// Need to have at least width-vx space remaining to draw the ball.
+		if px <= 0 || px >= width-vx {
 			vx *= -1
 		}
-		if py <= 0 || py >= height-1 {
+		// if py <= 0 || py >= height-1 {
+		// Need to have at least width-vy space remaining to draw the ball.
+		if py <= 0 || py >= height-vy {
 			vy *= -1
 		}
 
-		// remove the previous ball
-		for y := range board[0] {
-			for x := range board {
-				board[x][y] = false
-			}
-		}
+		// // remove the previous ball
+		// for y := range board[0] {
+		// 	for x := range board {
+		// 		board[x][y] = false
+		// 	}
+		// }
 
 		// put the new ball
 		board[px][py] = true

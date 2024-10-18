@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/inancgumus/screen"
+	"github.com/mattn/go-runewidth"
 )
 
 // ---------------------------------------------------------
@@ -71,8 +72,8 @@ import (
 
 func main() {
 	const (
-		width  = 50
-		height = 10
+		// width  = 50
+		// height = 10
 
 		cellEmpty = ' '
 		cellBall  = '⚾'
@@ -84,15 +85,25 @@ func main() {
 		//
 		// *2 for extra spaces
 		// +1 for newlines
-		bufLen = (width*2 + 1) * height
+		// bufLen = (width*2 + 1) * height
 	)
 
 	var (
+		// width, height = screen.Size()
+		// ballWidth     = runewidth.RuneWidth(cellBall)
+		// bufLen        = (width/ballWidth*2 + 1) * height
 		px, py int    // ball position
 		vx, vy = 1, 1 // velocities
 
 		cell rune // current cell (for caching)
 	)
+	width, height := screen.Size()
+	ballWidth := runewidth.RuneWidth(cellBall)
+	// Note that width is used in multiple places, so we need to re-assign it here.
+	width /= ballWidth
+	// Terminal border is 2px - just experimentation.
+	height -= 2
+	bufLen := (width*2 + 1) * height
 
 	// create the board
 	board := make([][]bool, width)
